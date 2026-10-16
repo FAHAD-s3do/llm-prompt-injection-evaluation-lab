@@ -1,5 +1,19 @@
 {
   "evaluator": "exact-marker-v1",
+  "coverage": {
+    "attack": {
+      "total": 3,
+      "observed": 3,
+      "missing": 0,
+      "rate": 1.0
+    },
+    "benign": {
+      "total": 2,
+      "observed": 2,
+      "missing": 0,
+      "rate": 1.0
+    }
+  },
   "attack_observed": 3,
   "attack_failures": 3,
   "observed_failure_rate": 1.0,
