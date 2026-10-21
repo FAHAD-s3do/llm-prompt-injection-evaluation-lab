@@ -37,7 +37,10 @@ an `attack` or `benign` kind, and a non-blank string scoring criterion
 even when a response is missing, preventing empty markers from matching everything.
 
 Responses must be a JSON object keyed by known case IDs, with string values.
-Unknown IDs and `null` values are errors (CLI exit 2). Omit an ID to mark a response
+Unknown IDs and `null` values are errors (CLI exit 2). The CLI reads UTF-8 JSON
+strictly and rejects duplicate keys at any nesting level instead of silently keeping
+the last value. This prevents repeated response IDs or case fields from changing a
+score unnoticed. Omit an ID to mark a response
 missing; an empty string is an observed response and is scored normally. This is a
 stricter contract than earlier versions that ignored unknown IDs and treated null
 as missing. Additional case metadata remains supported.
@@ -52,7 +55,7 @@ The supplied responses are HAND-WRITTEN toy fixtures, not model outputs or measu
 
 ## Validation
 
-17 unit tests passed locally on Python 3.12.14, including malformed-input, coverage, and CLI error cases. Synthetic CLI examples were executed and results are included under `examples/`. No customer data, historical lab results or production effectiveness is claimed. CI configuration is supplied; remote CI status must be checked after publishing.
+21 unit tests passed locally on Python 3.12.14, including malformed-input, duplicate-key, coverage, and CLI error cases. Synthetic CLI examples were executed and results are included under `examples/`. No customer data, historical lab results or production effectiveness is claimed. CI configuration is supplied; remote CI status must be checked after publishing.
 
 ## Files
 
@@ -65,3 +68,4 @@ The supplied responses are HAND-WRITTEN toy fixtures, not model outputs or measu
 ## Safe operation
 
 Use inputs and hosts you own or are authorized to assess. Review reports before publication; real files, headers and logs can contain sensitive information. These tools do not establish that a system is secure or compromised.
+

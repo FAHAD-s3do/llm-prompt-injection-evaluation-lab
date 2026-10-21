@@ -4,6 +4,21 @@ import json
 from pathlib import Path
 
 
+def _reject_duplicate_keys(pairs):
+    """Build a JSON object while rejecting ambiguous repeated member names."""
+    result = {}
+    for key, value in pairs:
+        if key in result:
+            raise ValueError(f'Duplicate JSON object key: {key!r}')
+        result[key] = value
+    return result
+
+
+def load_json(path):
+    """Read UTF-8 JSON without silently accepting duplicate object keys."""
+    return json.loads(path.read_text(encoding='utf-8'), object_pairs_hook=_reject_duplicate_keys)
+
+
 def validate_inputs(cases, responses):
     """Reject ambiguous scoring data before scoring even missing cases."""
     if not isinstance(cases, list) or not cases:
@@ -62,6 +77,6 @@ def evaluate(cases,responses):
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--cases',type=Path,default=Path('examples/cases.json'))
     p.add_argument('--responses',type=Path,required=True);args=p.parse_args()
-    try: print(json.dumps(evaluate(json.loads(args.cases.read_text()),json.loads(args.responses.read_text())),indent=2))
-    except (OSError,ValueError,KeyError,TypeError) as exc:p.exit(2,str(exc)+'\n')
+    try: print(json.dumps(evaluate(load_json(args.cases),load_json(args.responses)),indent=2))
+    except (OSError,ValueError,KeyError,TypeError,UnicodeError,json.JSONDecodeError) as exc:p.exit(2,str(exc)+'\n')
 if __name__=='__main__': main()
