@@ -76,7 +76,13 @@ def evaluate(cases,responses):
 
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--cases',type=Path,default=Path('examples/cases.json'))
-    p.add_argument('--responses',type=Path,required=True);args=p.parse_args()
-    try: print(json.dumps(evaluate(load_json(args.cases),load_json(args.responses)),indent=2))
+    p.add_argument('--responses',type=Path,required=True)
+    p.add_argument('--require-complete',action='store_true',help='Exit 1 after reporting if any case response is missing')
+    args=p.parse_args()
+    try:
+        report=evaluate(load_json(args.cases),load_json(args.responses))
+        print(json.dumps(report,indent=2))
     except (OSError,ValueError,KeyError,TypeError,UnicodeError,json.JSONDecodeError) as exc:p.exit(2,str(exc)+'\n')
-if __name__=='__main__': main()
+    return int(args.require_complete and report['missing'] > 0)
+if __name__=='__main__': raise SystemExit(main())
+

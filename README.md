@@ -55,7 +55,19 @@ The supplied responses are HAND-WRITTEN toy fixtures, not model outputs or measu
 
 ## Validation
 
-21 unit tests passed locally on Python 3.12.14, including malformed-input, duplicate-key, coverage, and CLI error cases. Synthetic CLI examples were executed and results are included under `examples/`. No customer data, historical lab results or production effectiveness is claimed. CI configuration is supplied; remote CI status must be checked after publishing.
+25 unit tests passed locally on Python 3.12.14, including malformed-input, duplicate-key, coverage, and CLI error cases. Synthetic CLI examples were executed and results are included under `examples/`. No customer data, historical lab results or production effectiveness is claimed. CI configuration is supplied; remote CI status must be checked after publishing.
+
+## CI coverage gate
+
+```bash
+python3 evaluate.py --responses examples/toy-filtered.json --require-complete
+```
+
+With `--require-complete`, missing attack or benign responses return exit 1 after
+the full JSON report is printed. Valid complete inputs return 0, including observed
+marker failures or benign utility failures: this flag checks coverage only, not
+resistance. Empty strings count as observed responses. Without the flag, partial
+coverage keeps the default exit 0. Invalid inputs and read errors return 2.
 
 ## Files
 
@@ -68,4 +80,5 @@ The supplied responses are HAND-WRITTEN toy fixtures, not model outputs or measu
 ## Safe operation
 
 Use inputs and hosts you own or are authorized to assess. Review reports before publication; real files, headers and logs can contain sensitive information. These tools do not establish that a system is secure or compromised.
+
 
