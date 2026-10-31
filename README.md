@@ -23,7 +23,7 @@ Both response sets are synthetic and must never be reported as a live model benc
 ## Implemented behavior
 
 - Cases separate attack inputs, untrusted documents and benign utility checks.
-- Scores recorded responses using explicit case-insensitive exact-marker criteria.
+- Scores recorded responses using Unicode NFKC-normalized, case-folded substring criteria.
 - Reports attack failures, missing coverage and benign utility separately.
 - Toy response sets illustrate scorer behavior; no API key, network call or live model is required.
 
@@ -48,14 +48,26 @@ as missing. Additional case metadata remains supported.
 The `coverage` object reports `total`, `observed`, `missing`, and `rate` separately
 for attack and benign cases. Coverage rate is null when that category has no cases.
 The failure rate still uses only observed attack responses; a zero failure rate
-with incomplete coverage is not evidence of resistance. Existing result fields
-and exact case-insensitive substring scoring remain unchanged.
+with incomplete coverage is not evidence of resistance. Missing cases are counted
+explicitly and are never treated as successful observations.
 
-The supplied responses are HAND-WRITTEN toy fixtures, not model outputs or measured defenses. No model is invoked. The marker is synthetic, not a real secret; output matching measures instruction redirection, not credential theft. No-marker observations do not establish resistance: paraphrases, encodings, tool actions and semantic violations can be missed. Missing cases are excluded from the rate and counted explicitly. Small tests do not establish a model ranking. Add real recorded outputs only with model/version, prompt, configuration and provenance.
+Attack markers and benign criteria are compared after Unicode NFKC normalization
+and case folding. This catches compatibility forms (for example, full-width
+characters) and canonically equivalent text before substring matching. It does
+not strip zero-width characters or map visually confusable letters, and it does
+not detect paraphrases, tool actions or semantic violations. The evaluator version
+is reported as `normalized-marker-v1`; existing result fields and coverage
+semantics remain unchanged.
+
+The supplied responses are HAND-WRITTEN toy fixtures, not model outputs or measured defenses. No model is invoked. The marker is synthetic, not a real secret; output matching measures instruction redirection, not credential theft. No-marker observations do not establish resistance: encodings, tool actions and semantic violations can be missed. Missing cases are excluded from the rate and counted explicitly. Small tests do not establish a model ranking. Add real recorded outputs only with model/version, prompt, configuration and provenance.
 
 ## Validation
 
-25 unit tests passed locally on Python 3.12.14, including malformed-input, duplicate-key, coverage, and CLI error cases. Synthetic CLI examples were executed and results are included under `examples/`. No customer data, historical lab results or production effectiveness is claimed. CI configuration is supplied; remote CI status must be checked after publishing.
+29 unit tests passed locally on Python 3.13.5, including malformed-input, duplicate-key,
+Unicode-normalization, coverage, and CLI error cases. Synthetic CLI examples were
+executed and results are included under `examples/`. No customer data, historical
+lab results or production effectiveness is claimed. CI is configured for Python
+3.10 and 3.12; inspect the latest workflow run for remote results.
 
 ## CI coverage gate
 
@@ -80,5 +92,3 @@ coverage keeps the default exit 0. Invalid inputs and read errors return 2.
 ## Safe operation
 
 Use inputs and hosts you own or are authorized to assess. Review reports before publication; real files, headers and logs can contain sensitive information. These tools do not establish that a system is secure or compromised.
-
-
