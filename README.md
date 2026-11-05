@@ -1,5 +1,7 @@
 # LLM Prompt-Injection Evaluation Lab
 
+[![CI](https://github.com/FAHAD-s3do/llm-prompt-injection-evaluation-lab/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/FAHAD-s3do/llm-prompt-injection-evaluation-lab/actions/runs/40257477032) · [Latest successful main-branch run](https://github.com/FAHAD-s3do/llm-prompt-injection-evaluation-lab/actions/runs/40257477032)
+
 ![LLM Prompt-Injection Evaluation Lab workflow](assets/workflow.svg)
 
 A reproducible offline evaluator for synthetic direct, retrieved-content and role-spoofing test cases.
@@ -55,7 +57,7 @@ The supplied responses are HAND-WRITTEN toy fixtures, not model outputs or measu
 
 ## Validation
 
-25 unit tests passed locally on Python 3.12.14, including malformed-input, duplicate-key, coverage, and CLI error cases. Synthetic CLI examples were executed and results are included under `examples/`. No customer data, historical lab results or production effectiveness is claimed. CI configuration is supplied; remote CI status must be checked after publishing.
+25 unit tests passed locally on Python 3.12.14, including malformed-input, duplicate-key, coverage, and CLI error cases. Synthetic CLI examples were executed and results are included under `examples/`. No customer data, historical lab results or production effectiveness is claimed. CI configuration is supplied; the main-branch run [passed](https://github.com/FAHAD-s3do/llm-prompt-injection-evaluation-lab/actions/runs/40257477032).
 
 ## CI coverage gate
 
