@@ -1,6 +1,6 @@
 # LLM Prompt-Injection Evaluation Lab
 
-[![CI](https://github.com/FAHAD-s3do/llm-prompt-injection-evaluation-lab/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/FAHAD-s3do/llm-prompt-injection-evaluation-lab/actions/runs/40257477032) · [Latest successful main-branch run](https://github.com/FAHAD-s3do/llm-prompt-injection-evaluation-lab/actions/runs/40257477032)
+[![CI](https://github.com/FAHAD-s3do/llm-prompt-injection-evaluation-lab/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/FAHAD-s3do/llm-prompt-injection-evaluation-lab/actions) · [Workflow history](https://github.com/FAHAD-s3do/llm-prompt-injection-evaluation-lab/actions)
 
 ![LLM Prompt-Injection Evaluation Lab workflow](assets/workflow.svg)
 
@@ -57,7 +57,7 @@ The supplied responses are HAND-WRITTEN toy fixtures, not model outputs or measu
 
 ## Validation
 
-25 unit tests passed locally on Python 3.12.14, including malformed-input, duplicate-key, coverage, and CLI error cases. Synthetic CLI examples were executed and results are included under `examples/`. No customer data, historical lab results or production effectiveness is claimed. CI configuration is supplied; the main-branch run [passed](https://github.com/FAHAD-s3do/llm-prompt-injection-evaluation-lab/actions/runs/40257477032).
+25 unit tests passed locally on Python 3.12.14, including malformed-input, duplicate-key, coverage, and CLI error cases. Synthetic CLI examples were executed and results are included under `examples/`. No customer data, historical lab results or production effectiveness is claimed. CI configuration is supplied; the live badge above reports current workflow status.
 
 ## CI coverage gate
 
